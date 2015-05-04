@@ -125,9 +125,27 @@ $known_sec_code="abc12345";
   //echo "open cnt =".$tmp1->num_rows;
 
   if ($tmp1->num_rows > 0){
-   // echo "This player open game cnt is ".$tmp1->num_rows;
-    echo "no, you have unfinished game cnt = ".$tmp1->num_rows;
+   // echo "no, you have unfinished game cnt = ".$tmp1->num_rows;
+    while($row = $tmp1->fetch_assoc()) {
+        $game_id=$row["game_id"];
+        $p1_id=$row["p1_id"];
+        $p2_id=$row["p2_id"];
+        $state_id=$row["state_id"];
 
+    //    echo "ok, game_id= " . $row["game_id"];
+    //    echo ", newly created";
+          printf("no, you have unfinished game,game_id =$game_id, p1_id=$p1_id, p2_id=$p2_id,state_id=$state_id ");   
+ 
+      // echo "reg_id= " . $row["reg_id"];
+      // echo "prj_id= " . $row["prj_id"];
+       
+
+      //close result set 
+      $result->close();
+      // close connection
+      $mysqli->close();
+      exit();
+    }  
 
  
 
