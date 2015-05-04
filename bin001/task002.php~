@@ -93,7 +93,7 @@ $known_sec_code="abc12345";
        //   echo $SQL;
           if ($cnt=$mysqli->query($SQL)) {
 //            printf(" 加入成功，影響筆數%d\n", $cnt);   
-            printf("ok, game_id =$game_id, just joined ");   
+            printf("ok, game_id =$game_id, p1_id=$waiting_id, p2_id=$p2_id,state_id=2 ");   
  
           }
 
@@ -167,9 +167,15 @@ $known_sec_code="abc12345";
     if ($result->num_rows > 0) {
     // output data of each row
       while($row = $result->fetch_assoc()) {
-        echo "ok, game_id= " . $row["game_id"];
-        echo ", newly created";
+        $game_id=$row["game_id"];
+        $p1_id=$row["p1_id"];
+        $p2_id=$row["p2_id"];
+        $state_id=$row["state_id"];
 
+    //    echo "ok, game_id= " . $row["game_id"];
+    //    echo ", newly created";
+          printf("ok, game_id =$game_id, p1_id=$p1_id, p2_id=$p2_id,state_id=$state_id ");   
+ 
       // echo "reg_id= " . $row["reg_id"];
       // echo "prj_id= " . $row["prj_id"];
        

@@ -109,8 +109,16 @@ $known_sec_code="abc12345";
   }
 
 //避免重複開 game
+// 2015-5-4 16:49 台中榮總
+//
+// state_id=1, newly open new game, waiting for player 2
+//          2, just matched game, player 1's turn
+//          3, player 1 moved, player 2's turn
+//          4, player 2 moved, player 1's turn
+//          99, game is over  
+
 //  $SQL=" SELECT * FROM `game_header` WHERE `p1_id`='$p1_id' AND `p2_id`=0 ";
-  $SQL=" SELECT * FROM `game_header` WHERE `p1_id`='$p1_id' AND state_id=1 ";
+  $SQL=" SELECT * FROM `game_header` WHERE (`p1_id`='$p1_id' OR `p2_id`='$p1_id')  AND state_id!=99 ";
 
   //echo $SQL;
   $tmp1 = $mysqli->query($SQL);
@@ -118,7 +126,7 @@ $known_sec_code="abc12345";
 
   if ($tmp1->num_rows > 0){
    // echo "This player open game cnt is ".$tmp1->num_rows;
-    echo "no, you have open game cnt is ".$tmp1->num_rows;
+    echo "no, you have unfinished game cnt = ".$tmp1->num_rows;
 
 
  
@@ -133,7 +141,7 @@ $known_sec_code="abc12345";
   }
 
 
-
+// 
 
 
 
