@@ -85,62 +85,18 @@ $arr = array('ans' => 'no', 'err_desc' => '');
       $mysqli->close();
       exit();
     }    
-  }
- 
-
-
-
- // to know which game to join
-  $SQL=" SELECT * FROM `game_header` WHERE `state_id`=1 ";
-
-  $result = $mysqli->query($SQL);
-  if ($result->num_rows > 0) {
-    // output data of each row
-    while($row = $result->fetch_assoc()) {
-       
-     // join
-      $game_id=$row["game_id"];
-      $p1_id=$row["p1_id"];
-      $p2_id=$bin_id;
-      $state_id=2;
-
-      $SQL1=" UPDATE `laobanit_bin001`.`game_header` ";
-      $SQL2=" SET `p2_id` = '$p2_id',`p2_dt` = CURRENT_TIMESTAMP, state_id=$state_id "; 
-      $SQL3=" WHERE `game_header`.`game_id` =$game_id ";
-      $SQL=$SQL1.$SQL2.$SQL3;
-      //   echo $SQL;
-
-      $cnt=$mysqli->query($SQL);
-      if ($cnt->num_rows>0) {
-        $arr = array('ans' => 'yes', 
-                'game_id' => $game_id, 
-                'p1_id' => $row["p1_id"], 
-                'p2_id' => $row["p2_id"], 
-                'state_id' => $row["state_id"]);
-        echo json_encode($arr);
-
-        $cnt->close();
-        $mysqli->close();
-        exit();
-
-
-      }else{
-        $arr = array('ans' => 'no', 'sql' => $SQL);
-        echo json_encode($arr);
-
-        $cnt->close();
-        $mysqli->close();
-        exit();
-
-      }
-    }  
   }else{
-    $arr = array('ans' => 'no','detail'='no any open game');   
-    echo json_encode($arr);
- 
+    $chk1->close();
   }
  
-   
+  $arr = array('ans' => 'no', 
+                'debug' =>'no any open game of this player');
+      echo json_encode($arr);
+
+
+
+
+
 
 
   // close result set
@@ -149,5 +105,4 @@ $arr = array('ans' => 'no', 'err_desc' => '');
   // close connection
   $mysqli->close();
 ?>
-
 
