@@ -104,8 +104,8 @@ $arr = array('ans' => 'no', 'err_desc' => '');
     // output data of each row
     while($row = $chk1->fetch_assoc()) {
        
-  //    $game_id => $row["game_id"], 
-   //   $p1_id => $row["p1_id"], 
+      $game_id = $row["game_id"];
+      $p1_id = $row["p1_id"];
       
       $arr = array('ans' => 'yes', 
                 'game_id' => $row["game_id"], 
@@ -130,7 +130,8 @@ $arr = array('ans' => 'no', 'err_desc' => '');
  
  // now , join this game
     $arr = array('ans' => '???yes', 
-                
+                'game_id' => $game_id, 
+                'p1_id' => $p1_id, 
                 'debug' => 'xxxGOING TO JOIN THIS GAME'
 
                    );

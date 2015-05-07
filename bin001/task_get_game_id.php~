@@ -86,15 +86,56 @@ $arr = array('ans' => 'no', 'err_desc' => '');
       exit();
     }    
   }else{
-    $chk1->close();
+
+     $arr = array('ans' => 'no', 
+                'debug' =>'no any open game of this player');
+     //echo json_encode($arr);
+      $chk1->close();
   }
  
-  $arr = array('ans' => 'no', 
-                'debug' =>'no any open game of this player');
+
+
+
+ // if any existing open game 
+  $SQL=" SELECT * FROM `game_header` WHERE `state_id`=1 ";
+
+  $chk1 = $mysqli->query($SQL);
+  if ($chk1->num_rows > 0) {
+    // output data of each row
+    while($row = $chk1->fetch_assoc()) {
+       
+      $game_id => $row["game_id"], 
+   //   $p1_id => $row["p1_id"], 
+      
+      $arr = array('ans' => 'yes', 
+                'game_id' => $row["game_id"], 
+                'p1_id' => $row["p1_id"], 
+                'p2_id' => $row["p2_id"], 
+                'state_id' => $row["state_id"],
+                'detail' => 'to join this game'
+
+                   );
+      echo json_encode($arr); 
+      $chk1->close();      
+    }    
+  }else{
+    
+      $arr = array('ans' => 'no', 
+                'debug' =>'no any open game of this player '.$SQL);
       echo json_encode($arr);
+      $chk1->close();      
+      $mysqli->close();
+      exit();
+  }
+ 
+ // now , join this game
+    $arr = array('ans' => '???yes', 
+                
+                'debug' => 'xxxGOING TO JOIN THIS GAME'
 
-
-
+                   );
+      echo json_encode($arr);
+ 
 
 
 
@@ -105,4 +146,3 @@ $arr = array('ans' => 'no', 'err_desc' => '');
   // close connection
   $mysqli->close();
 ?>
-
