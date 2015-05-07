@@ -104,8 +104,8 @@ $arr = array('ans' => 'no', 'err_desc' => '');
     // output data of each row
     while($row = $chk1->fetch_assoc()) {
        
-      $game_id => $row["game_id"], 
-   //   $p1_id => $row["p1_id"], 
+      $game_id = $row["game_id"];
+      $p1_id = $row["p1_id"];
       
       $arr = array('ans' => 'yes', 
                 'game_id' => $row["game_id"], 
@@ -129,9 +129,17 @@ $arr = array('ans' => 'no', 'err_desc' => '');
   }
  
  // now , join this game
+$SQL1="UPDATE  `laobanit_bin001`.`game_header` ";
+$SQL2=" SET  `p2_id` =  '$bin_id', `p2_dt` =  CURRENT_TIMESTAMP, `state_id` =  '2'";
+$SQL3=" WHERE  `game_header`.`game_id` ='$game_id';"
+$SQL=$SQL1.$SQL2.$SQL3;
+
+
+
     $arr = array('ans' => '???yes', 
-                
-                'debug' => 'xxxGOING TO JOIN THIS GAME'
+                'game_id' => $game_id, 
+                'p1_id' => $p1_id, 
+                'debug' => 'xxxGOING TO JOIN THIS GAME '.$SQL
 
                    );
       echo json_encode($arr);

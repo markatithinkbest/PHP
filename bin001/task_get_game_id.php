@@ -107,21 +107,22 @@ $arr = array('ans' => 'no', 'err_desc' => '');
       $game_id = $row["game_id"];
       $p1_id = $row["p1_id"];
       
-      $arr = array('ans' => 'yes', 
-                'game_id' => $row["game_id"], 
-                'p1_id' => $row["p1_id"], 
-                'p2_id' => $row["p2_id"], 
-                'state_id' => $row["state_id"],
-                'detail' => 'to join this game'
-
-                   );
-      echo json_encode($arr); 
+//      $arr = array('ans' => 'yes', 
+//                'game_id' => $row["game_id"], 
+//                'p1_id' => $row["p1_id"], 
+//                'p2_id' => $row["p2_id"], 
+//                'state_id' => $row["state_id"],
+//                'detail' => 'to join this game'
+//
+//                   );
+//      echo json_encode($arr); 
       $chk1->close();      
     }    
   }else{
     
       $arr = array('ans' => 'no', 
-                'debug' =>'no any open game of this player '.$SQL);
+                'debug' =>'GOING TO OPEN A NEW GAME...');
+
       echo json_encode($arr);
       $chk1->close();      
       $mysqli->close();
@@ -129,14 +130,36 @@ $arr = array('ans' => 'no', 'err_desc' => '');
   }
  
  // now , join this game
-    $arr = array('ans' => '???yes', 
+$SQL1="UPDATE  `laobanit_bin001`.`game_header` ";
+$SQL2=" SET  `p2_id` =  '$bin_id', `p2_dt` =  CURRENT_TIMESTAMP, `state_id` =  '2'";
+$SQL3=" WHERE  `game_header`.`game_id` ='$game_id';";
+$SQL=$SQL1.$SQL2.$SQL3;
+
+  $chk1 = $mysqli->query($SQL);
+  if ($chk1->num_rows > 0) {
+
+
+    $arr = array('ans' => 'yes', 
                 'game_id' => $game_id, 
                 'p1_id' => $p1_id, 
-                'debug' => 'xxxGOING TO JOIN THIS GAME'
+                'p2_id' => $bin_id, 
+                'state_id' => 2, 
+                'debug' => 'in good shape'
 
                    );
       echo json_encode($arr);
- 
+  }else{
+    $arr = array('ans' => 'no', 
+                'game_id' => $game_id, 
+                'p1_id' => $p1_id, 
+                'p2_id' => $bin_id, 
+                'state_id' => 2, 
+                'debug' => 'SOMETHING IS WRONG HERE  ===> '.$SQL
+
+                   );
+      echo json_encode($arr);
+      
+  } 
 
 
 
