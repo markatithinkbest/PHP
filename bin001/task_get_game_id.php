@@ -61,34 +61,42 @@ $arr = array('ans' => 'no', 'err_desc' => '');
   }
 
 
- $SQL=" SELECT * FROM `game_header` WHERE `state_id`=1 ";
 
- $result = $mysqli->query($SQL);
- if ($result->num_rows > 0) {
+
+ // if any existing open game created by this user
+  $SQL=" SELECT * FROM `game_header` WHERE `state_id`=1 AND p1_id='$bin_id'";
+
+  $chk1 = $mysqli->query($SQL);
+  if ($chk1->num_rows > 0) {
     // output data of each row
-      while($row = $result->fetch_assoc()) {
+    while($row = $chk1->fetch_assoc()) {
        
-   $arr = array('ans' => 'yes', 'game_id' => $row["game_id"], 'p1_id' => $row["p1_id"], 'p2_id' => $row["p2_id"], 'state_id' => $row["state_id"]);
-    echo json_encode($arr);
-      //close result set 
-      $result->close();
-      // close connection
+      $arr = array('ans' => 'yes', 
+                'game_id' => $row["game_id"], 
+                'p1_id' => $row["p1_id"], 
+                'p2_id' => $row["p2_id"], 
+                'state_id' => $row["state_id"],
+                'detail' => 'opened by this player'
+
+                   );
+      echo json_encode($arr);
+ 
+      $chk1->close();
       $mysqli->close();
       exit();
-    }  
-  }else{
-$arr = array('ans' => 'no');
-    echo json_encode($arr);
-   
-
+    }    
   }
+ 
+  $arr = array('ans' => 'no', 
+                'debug' =>'no any open game of this player'
 
+                   );
+      echo json_encode($arr);
 
-    /* close result set */
-    $result->close();
+  // close result set
+  $result->close();
     
   // close connection
   $mysqli->close();
 ?>
-
 
