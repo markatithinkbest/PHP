@@ -38,6 +38,8 @@ if ($db->numRows() > 0) {
                 'p2_id' => $bin_id,
                 'state_id' => 2,
                 'desc' => 'join an open game');
+            
+            // to triger gcm here
         } else {
             // === 1-1-2 unexcepted situation
             $arr = array('ans' => 'no', 'desc' => 'SOMETHING IS WRONG HERE, TO DEBUG!');
