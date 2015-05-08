@@ -1,13 +1,13 @@
 <?php
 // filename: task_get_game_id.php
 
-require ('task_get_game_id_pre.php');  
+require ('task_get_game_id_pre.php');
 $db = new Database();
 $db->connect();
 
 // list all open games
 $db->select('game_header', 'game_id,p1_id,state_id', NULL, 'state_id<99', NULL);
-if ($db->numRows() > 0) {       
+if ($db->numRows() > 0) {
     // ### Some open games ###
     $where_clause = "(p1_id=$bin_id OR p2_id=$bin_id) AND state_id<99";
     $db->select('game_header', 'game_id,p1_id,p2_id,state_id', NULL, $where_clause, NULL);

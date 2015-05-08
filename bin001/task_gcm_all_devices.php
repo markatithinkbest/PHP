@@ -1,3 +1,5 @@
+
+
 <?php
 // filename: task_gcm_all_devices.php
 require ('task_gcm_all_devices_pre.php');
@@ -5,16 +7,16 @@ $db = new Database();
 $db->connect();
 
 
-mysql_connect("localhost", "laobanit_phoenix", "HFx}2U-e2tk,") or
+mysql_connect("localhost", "laobanit_bin001", "xbg&KovK8F7?") or
         die("Could not connect: " . mysql_error());
-mysql_select_db("laobanit_phoenix");
+mysql_select_db("laobanit_bin001");
 
 //$result = mysql_query("SELECT * FROM `v_gcm_list` LIMIT 10");
 //select distinct `gcm_register`.`reg_id` AS `reg_id` from `gcm_register` order by `gcm_register`.`time_stamp` desc
-$result = mysql_query("SELECT * FROM `v_gcm_list` LIMIT 999");
+$result = mysql_query("SELECT reg_id FROM bin001_id ORDER BY _id LIMIT 1000");
 
 
-$myarray = array();
+$arr = array();
 //$myarray[0] = "test data 1";
 //$myarray[1] = "test data 2";
 //$myarray[3] = "test data 3";
@@ -23,10 +25,10 @@ $myindex = 0;
 while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
 //    printf("ID: %s  Name: %s", $row[0], $row[1]);  
 //    echo "<br>".$row[0]; 
-    $myarray[$myindex] = $row[0];
+    $arr[$myindex] = $row[0];
     $myindex++;
 }
-
+print_r($arr);
 
 
 
@@ -35,8 +37,8 @@ mysql_free_result($result);
 
 
 // Message to be sent
-$message = $_POST['message'];
-
+//$message = $_POST['message'];
+$message="馬克 testing GCM ";
 
 
 
@@ -44,12 +46,13 @@ $message = $_POST['message'];
 $url = 'https://android.googleapis.com/gcm/send';
 
 $fields = array(
-    'registration_ids' => $myarray,
+    'registration_ids' => $arr,
     'data' => array("message" => $message),
 );
-
+//                      AIzaSyATvnKoFAoOxP6lkiNmq2xhhH0hoZChg54   browser
+//                      AIzaSyCbWEy5YGvdATCaQoPBCijd_fnSa0XF_K4
 $headers = array(
-    'Authorization: key=AIzaSyBzFWkzHIkqwnchyqMo-Si8PKnoJ5tOrXU',
+    'Authorization: key=AIzaSyCbWEy5YGvdATCaQoPBCijd_fnSa0XF_K4',
     'Content-Type: application/json'
 );
 
@@ -87,4 +90,3 @@ curl_close($ch);
 
     </body>
 </html>
-
