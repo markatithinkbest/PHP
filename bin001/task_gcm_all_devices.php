@@ -5,15 +5,18 @@
 require ('task_gcm_all_devices_pre.php');
 $db = new Database();
 $db->connect();
+$db->select('bin001_id','reg_id',NULL,' 1',''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
+$res = $db->getResult();
+print_r($res);
+//
 
-
-mysql_connect("localhost", "laobanit_bin001", "xbg&KovK8F7?") or
-        die("Could not connect: " . mysql_error());
-mysql_select_db("laobanit_bin001");
-
-//$result = mysql_query("SELECT * FROM `v_gcm_list` LIMIT 10");
-//select distinct `gcm_register`.`reg_id` AS `reg_id` from `gcm_register` order by `gcm_register`.`time_stamp` desc
-$result = mysql_query("SELECT reg_id FROM bin001_id ORDER BY _id LIMIT 1000");
+//mysql_connect("localhost", "laobanit_bin001", "xbg&KovK8F7?") or
+//        die("Could not connect: " . mysql_error());
+//mysql_select_db("laobanit_bin001");
+//
+////$result = mysql_query("SELECT * FROM `v_gcm_list` LIMIT 10");
+////select distinct `gcm_register`.`reg_id` AS `reg_id` from `gcm_register` order by `gcm_register`.`time_stamp` desc
+//$result = mysql_query("SELECT reg_id FROM bin001_id ORDER BY _id LIMIT 1000");
 
 
 $arr = array();
@@ -22,7 +25,8 @@ $arr = array();
 //$myarray[3] = "test data 3";
 $myindex = 0;
 
-while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+//while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+    while ($row = mysql_fetch_array($res, MYSQL_NUM)) {
 //    printf("ID: %s  Name: %s", $row[0], $row[1]);  
 //    echo "<br>".$row[0]; 
     $arr[$myindex] = $row[0];
@@ -38,7 +42,7 @@ mysql_free_result($result);
 
 // Message to be sent
 //$message = $_POST['message'];
-$message="馬克 testing GCM ";
+$message="ZZ馬克 testing GCM ";
 
 
 
