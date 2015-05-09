@@ -27,7 +27,7 @@ if ($db->numRows() > 0) {
     } else {
         $game_id = $res[0]['game_id'];
         $p1_id = $res[0]['p1_id'];
-        $set_clause = array('p2_id' => $bin_id, 'state_id' => 2);
+        $set_clause = array('p2_id' => $bin_id, 'state_id' => -2);
         $where_clause = "game_id=$game_id";
         $db->update('game_header', $set_clause, $where_clause); // Table name, column names and respective values
         if ($db->numRows() > 0) {
@@ -37,7 +37,7 @@ if ($db->numRows() > 0) {
                 'p1_id' => $p1_id,
                 'p2_id' => $bin_id,
                 'state_id' => 2,
-                'desc' => 'join an open game');
+                'desc' => 'join an open game, ###GCM to inform p1');
             
             // to triger gcm here
         } else {
