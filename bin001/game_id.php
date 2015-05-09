@@ -99,14 +99,53 @@ class GameUtil {
         } else {
             $result = $res[0];
         }
+        
         return $result;
-    }
 
 //SAMPLE USAGE
 //$game = new GameUtil();
 //$bin_id = 30;
 //$feedback = $game->getUnfinishedGamesJson($bin_id);
 //echo json_encode($feedback);
+    }
+
+    function joinOrOpenGameJson($bin_id) {
+        require_once ('class/db.php');
+        $db = new Database();
+        $db->connect();
+        $where_clause = "state_id=-3";
+        $db->select('game_header', 'game_id,p1_id,p1_set,p2_id,p2_set,state_id', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
+        $res = $db->getResult();
+        if (count($res) == 0) {// to open
+            $result = array('game_id' => 0);
+        } else { // to join
+            $game_id = $res[0]['game_id']; // open game
+            echo "game id ? ".$game_id;
+            $timestamp = date('Y-m-d G:i:s');
+//            $set_clause = array('p2_id' => $bin_id, 'state_id' => $state_join_game_2_more_number_set);
+            $set_clause = array('p2_id' => "$bin_id", 'p2_dt' => "$timestamp", 'state_id' => "-2");
+            $where_clause = "game_id=$game_id";
+            $res2 = $db->update('game_header', $set_clause, $set_clause);
+            echo '######'.$res2."<br>";
+            // Table name, column names and values, WHERE conditions
+            if ($res2 > 0) {
+                $res2 = $db->insert('game_header', array('p1_id' => $bin_id));
+                echo "what is res2 now? ";
+                print_r($res2);
+                
+            } else {
+                $result = array('game_id' => -1, 'desc' => 'err when join, sql=> ' . $db->getSql());
+            }
+        }
+        return $result;
+
+//SAMPLE USAGE
+//$game = new GameUtil();
+//$bin_id = 30;
+//$feedback = $game->getUnfinishedGamesJson($bin_id);
+//echo json_encode($feedback);
+    }
+
 }
 
 require ('task_get_game_id_pre.php');
@@ -118,8 +157,15 @@ if ($feedback['game_id'] > 0) {
     exit();
 }
 
-echo "...to open or join";
-    exit();
+echo "...to open or join, join first <br>";
+
+//SAMPLE USAGE
+//$game = new GameUtil();
+//$bin_id = 30;
+$feedback2 = $game->joinOrOpenGameJson($bin_id);
+echo json_encode($feedback2);
+
+exit();
 
 
 
