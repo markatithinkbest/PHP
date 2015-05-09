@@ -1,18 +1,16 @@
 <?php
 
 // filename: task_get_game_id.php
-
 //http://www.ithinkbest.com/b253-stateid-definition/
-
 //B253 stateId definition
 
 /**
-* === preparation ===
-* -3 (default) waiting for another player to join this game
-* -2 two more to submit their number set
-* -1 one more to submit their number set
-* 0 ready to start game
-*
+ * === preparation ===
+ * -3 (default) waiting for another player to join this game
+ * -2 two more to submit their number set
+ * -1 one more to submit their number set
+ * 0 ready to start game
+ *
  * 
  */
 //define("STATE_WAIT_FOR_JOIN",     -3);
@@ -20,10 +18,10 @@
 //define("STATE_1_MORE_NUMBER_SET",     -1);
 //define("STATE_0_READY_TO_START",     0);
 
-$state_newly_open_wait_for_join=  -3;
-$state_join_game_2_more_number_set=-2;
-$state_1_more_number_set=-1;
-$state_ready_to_start_game=0;
+$state_newly_open_wait_for_join = -3;
+$state_join_game_2_more_number_set = -2;
+$state_1_more_number_set = -1;
+$state_ready_to_start_game = 0;
 
 
 require ('task_get_game_id_pre.php');
@@ -57,12 +55,41 @@ if ($db->numRows() > 0) {
         $db->update('game_header', $set_clause, $where_clause); // Table name, column names and respective values
         if ($db->numRows() > 0) {
             // === 1-1-1 existing open, without player invloved, open a new one      
-            $arr = array('ans' => 'yes',
+           
+
+            //===GCM=== BIG GAME HERE
+            require ('class/gcm.php');
+
+                //$arr=[];
+                $gcm_arr[] = $p1_id;
+                $gcm_arr[] = $bin_id;
+                
+          
+
+// Message to be sent
+//$message = $_POST['message'];
+            $gcm_msg = "$game_id IS SET FOR YOU TO SUBMIT YOUR NUMBER SET ";
+
+// Set POST variables
+
+
+            $gcm = new GcmUtil;
+            $feedback = $util->sendMsg($gcm_arr, $gcm_msg);
+
+ $arr = array('ans' => 'yes',
                 'game_id' => $game_id,
                 'p1_id' => $p1_id,
                 'p2_id' => $bin_id,
                 'state_id' => $state_join_game_2_more_number_set,
-                'desc' => 'join an open game, ###GCM to inform p1');
+                'desc' => 'join an open game, ###GCM to inform p1 '.$feedback);
+
+
+
+
+
+
+
+
 
             // to triger gcm here
         } else {
@@ -76,10 +103,10 @@ if ($db->numRows() > 0) {
     $db->insert('game_header', array('game_id' => NULL, 'p1_id' => $bin_id));
     if ($db->numRows() > 0) {
         $res = $db->getResult();
-        $arr = array('ans' => 'yes', 
-            'game_id' => $res[0], 
-            'p1_id' => $bin_id, 
-            'p2_id' => 0, 
+        $arr = array('ans' => 'yes',
+            'game_id' => $res[0],
+            'p1_id' => $bin_id,
+            'p2_id' => 0,
             'state_id' => $state_newly_open_wait_for_join);
     } else {
         // === 1-2-2 unexcepted situation
