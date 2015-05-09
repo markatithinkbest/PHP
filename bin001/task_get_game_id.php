@@ -15,12 +15,15 @@
 *
  * 
  */
-define("STATE_WAIT_FOR_JOIN",     -3);
-define("STATE_2_MORE_NUMBER_SET",     -2);
-define("STATE_1_MORE_NUMBER_SET",     -1);
-define("STATE_0_READY_TO_START",     0);
+//define("STATE_WAIT_FOR_JOIN",     -3);
+//define("STATE_2_MORE_NUMBER_SET",     -2);
+//define("STATE_1_MORE_NUMBER_SET",     -1);
+//define("STATE_0_READY_TO_START",     0);
 
-
+$state_newly_open_wait_for_join=  -3;
+$state_join_game_2_more_number_set=-2;
+$state_1_more_number_set=-1;
+$state_ready_to_start_game=0;
 
 
 require ('task_get_game_id_pre.php');
@@ -49,7 +52,7 @@ if ($db->numRows() > 0) {
     } else {
         $game_id = $res[0]['game_id'];
         $p1_id = $res[0]['p1_id'];
-        $set_clause = array('p2_id' => $bin_id, 'state_id' => $STATE_2_MORE_NUMBER_SET);
+        $set_clause = array('p2_id' => $bin_id, 'state_id' => $state_join_game_2_more_number_set);
         $where_clause = "game_id=$game_id";
         $db->update('game_header', $set_clause, $where_clause); // Table name, column names and respective values
         if ($db->numRows() > 0) {
@@ -58,7 +61,7 @@ if ($db->numRows() > 0) {
                 'game_id' => $game_id,
                 'p1_id' => $p1_id,
                 'p2_id' => $bin_id,
-                'state_id' => $STATE_2_MORE_NUMBER_SET,
+                'state_id' => $state_join_game_2_more_number_set,
                 'desc' => 'join an open game, ###GCM to inform p1');
 
             // to triger gcm here
@@ -77,7 +80,7 @@ if ($db->numRows() > 0) {
             'game_id' => $res[0], 
             'p1_id' => $bin_id, 
             'p2_id' => 0, 
-            'state_id' => $STATE_WAIT_FOR_JOIN);
+            'state_id' => $state_newly_open_wait_for_join);
     } else {
         // === 1-2-2 unexcepted situation
         $arr = array('ans' => 'no', 'desc' => '1-2-2 unexcepted situation SOMETHING IS WRONG HERE, TO DEBUG!');
