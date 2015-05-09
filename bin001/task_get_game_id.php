@@ -37,14 +37,14 @@ class GcmUtilV3 {
 
         $db->select('game_header', 'game_id,p1_id,p1_set,p2_id,p2_set,state_id', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
         $res = $db->getResult();
-        foreach ($res as $a) {
-
-            //      $sample_msg = array('gamexxx' => json_encode($a));
-        }
-        print_r($res);
-        echo "<h1>---</h1>";
-        print_r($res[0]);
-        $sample_msg = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
+//        foreach ($res as $a) {
+//
+//            //      $sample_msg = array('gamexxx' => json_encode($a));
+//        }
+//        print_r($res);
+//        echo "<h1>---</h1>";
+//        print_r($res[0]);
+//        $sample_msg = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
         //echo json_encode($arr);
         //print_r($arr);
 
