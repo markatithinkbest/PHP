@@ -1,34 +1,27 @@
 <?php
-// filename: task_gcm_all_devices.php
-//require ('task_gcm_all_devices_pre.php');
 
-//require_once ('class/db.php');
-
-//require_once ('class/gcm.php');
-//$db = new Database();
-//$db->connect();
-echo "xxxx";
 class GcmUtilV2 {
 
     function sendMsgToGamePlayers($game_id, $msg) {
         require_once ('class/db.php');
         $db = new Database();
         $db->connect();
-echo "xxxx";
         $where_clause = "game_id=$game_id";
-// add p1 regId
+        
+        // add p1 regId
         $db->select('v_p1_reg_id', 'reg_id', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
         $res = $db->getResult();
         foreach ($res as $a) {
             $arr[] = $a['reg_id'];
         }
-// add p2 regId
+        
+        // add p2 regId
         $db->select('v_p1_reg_id', 'reg_id', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
         $res = $db->getResult();
         foreach ($res as $a) {
             $arr[] = $a['reg_id'];
         }
-        print_r($arr);
+        //print_r($arr);
 
         $url = 'https://android.googleapis.com/gcm/send';
 
@@ -36,63 +29,31 @@ echo "xxxx";
             'registration_ids' => $arr,
             'data' => array("message" => $msg),
         );
-// ### NEED TO UPDATE API KEY HERE ###
+        
+        // ### NEED TO UPDATE API KEY HERE ###
         $headers = array(
             'Authorization: key=AIzaSyCbWEy5YGvdATCaQoPBCijd_fnSa0XF_K4',
             'Content-Type: application/json'
         );
 
-// Open connection
+        // Open connection
         $ch = curl_init();
 
-// Set the url, number of POST vars, POST data
+        // Set the url, number of POST vars, POST data
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-// Execute post
+        // Execute post
         $result = curl_exec($ch);
-echo $result;
-//  Close connection
-        curl_close($ch);
-        return $result;
-
-    }
-
-    function sendMsg($arr, $msg) {
-        
-        
-        $url = 'https://android.googleapis.com/gcm/send';
-
-        $fields = array(
-            'registration_ids' => $arr,
-            'data' => array("message" => $msg),
-        );
-// ### NEED TO UPDATE API KEY HERE ###
-        $headers = array(
-            'Authorization: key=AIzaSyCbWEy5YGvdATCaQoPBCijd_fnSa0XF_K4',
-            'Content-Type: application/json'
-        );
-
-// Open connection
-        $ch = curl_init();
-
-// Set the url, number of POST vars, POST data
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-// Execute post
-        $result = curl_exec($ch);
-echo $result;
-//  Close connection
+        echo $result;
+        //  Close connection
         curl_close($ch);
         return $result;
     }
-
 }
+
 echo "yyyy";
 //print_r($arr);
 // Message to be sent
