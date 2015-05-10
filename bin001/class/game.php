@@ -123,13 +123,14 @@ class GameB001 {
         $db = new Database();
         $db->connect();
         //
-        $set_array = array('p2_id' => $player);
+        $set_array = array('p2_id' => $player,'state_id' => 0);
         $where_clause = "game_id=$game";
         $db->update($this->game_table, $set_array, $where_clause);
         $res = $db->getResult();
         return $this->getGame($game);
     }
-
+    
+    
     function getOpenGameId() { //p as player       
         $db = new Database();
         $db->connect();
@@ -138,17 +139,38 @@ class GameB001 {
         $db->select($this->game_table, '*', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
         $res = $db->getResult();
         if (count($res) == 0) {
-            $result =0;
+            $result = 0;
         } else {
-            $result = $res[0];
+            $arr = $res[0];
+            $result=$arr['game_id'];
         }
-        
-        print_r($result)
+
+//        print_r($result);
         return $result;
     }
 
 }
 
+/**
+ * 
+ * @return type
+ */
+//    function getOpenGameId() { //p as player       
+//        $db = new Database();
+//        $db->connect();
+//        //
+//        $where_clause = "state_id=-1";
+//        $db->select($this->game_table, '*', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
+//        $res = $db->getResult();
+//        if (count($res) == 0) {
+//            $result =0;
+//        } else {
+//            $result = $res[0];
+//        }
+//        
+//        print_r($result)
+//        return $result;
+//    }
 //SAMPLE USAGE
 //$g001 = new GameB001();
 //$a = 30;
@@ -172,4 +194,24 @@ class GameB001 {
 //
 //echo "<h2>player $player, cancelGame #$game </h2>";
 //echo 'affected row cnt is ' . $g001->cancelPlayerGame($player, $game);
-
+//
+//class GameB002 extends GameB001 {
+//
+//    function getOpenGameId() { //p as player       
+//        $db = new Database();
+//        $db->connect();
+//        //
+//        $where_clause = "state_id=-1";
+//        $db->select($this->game_table, '*', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
+//        $res = $db->getResult();
+//        if (count($res) == 0) {
+//            $result = 0;
+//        } else {
+//            $result = $res[0];
+//        }
+//
+//        print_r($result)
+//        return $result;
+//    }
+//
+//}
