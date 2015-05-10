@@ -64,7 +64,7 @@ class GameB001 {
         $db->connect();
         //
         $where_clause = "game_id=$game_id";
-        $db->select($this->game_table, '*', NULL, $where_clause, ''); 
+        $db->select($this->game_table, '*', NULL, $where_clause, '');
 // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
         $res = $db->getResult();
         //echo $db->getSql();
@@ -97,18 +97,17 @@ class GameB001 {
         return $result;
     }
 
-    
     /**
      * 開新局，返回該新局的基礎信息
      * @param type $player
      * @param type $set
      * @return type
      */
-    function openNewGame($player,$set) { //p as player       
+    function openNewGame($player, $set) { //p as player       
         $db = new Database();
         $db->connect();
         //
-        $db->insert($this->game_table, array('p1_id' => $player,'p1_set' => $set));
+        $db->insert($this->game_table, array('p1_id' => $player, 'p1_set' => $set));
         $res = $db->getResult();
         $game_id = $res[0];
         return $this->getGame($game_id);
@@ -130,6 +129,24 @@ class GameB001 {
         $res = $db->getResult();
         return $this->getGame($game);
     }
+
+    function getOpenGameId() { //p as player       
+        $db = new Database();
+        $db->connect();
+        //
+        $where_clause = "state_id=-1";
+        $db->select($this->game_table, '*', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
+        $res = $db->getResult();
+        if (count($res) == 0) {
+            $result =0;
+        } else {
+            $result = $res[0];
+        }
+        
+        print_r($result)
+        return $result;
+    }
+
 }
 
 //SAMPLE USAGE
