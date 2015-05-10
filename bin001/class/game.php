@@ -97,16 +97,18 @@ class GameB001 {
         return $result;
     }
 
+    
     /**
      * 開新局，返回該新局的基礎信息
-     * @param type $p
+     * @param type $player
+     * @param type $set
      * @return type
      */
-    function openNewGame($p) { //p as player       
+    function openNewGame($player,$set) { //p as player       
         $db = new Database();
         $db->connect();
         //
-        $db->insert($this->game_table, array('p1_id' => $p));
+        $db->insert($this->game_table, array('p1_id' => $player,'p1_set' => $set));
         $res = $db->getResult();
         $game_id = $res[0];
         return $this->getGame($game_id);
