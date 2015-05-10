@@ -4,6 +4,8 @@
  * @Author Rory Standley <rorystandley@gmail.com>
  * @Version 1.0
  * @Package Database
+ * 
+ * https://github.com/rorystandley/MySQLi-CRUD-PHP-OOP
  */
 
 class Database {

@@ -64,8 +64,10 @@ class GameB001 {
         $db->connect();
         //
         $where_clause = "game_id=$game_id";
-        $db->select($this->game_table, '*', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
+        $db->select($this->game_table, '*', NULL, $where_clause, ''); 
+// Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
         $res = $db->getResult();
+        //echo $db->getSql();
         if (count($res) == 0) {
             $result = array('game_id' => 0);
         } else {
@@ -129,26 +131,26 @@ class GameB001 {
 }
 
 //SAMPLE USAGE
-$g001 = new GameB001();
-$a = 30;
-
-echo "<h2>player $a, getUnfinishedGameCnt</h2>";
-echo $g001->getUnfinishedGameCnt($a);
-
-echo "<h2>player $a, getUnfinishedGame </h2>";
-echo json_encode($g001->getUnfinishedGame($a));
-
-$a = 2;
-echo "<h2>player $a, openNewGame </h2>";
-echo json_encode($g001->openNewGame($a));
-
-
-$player = 33;
-$game = 140;
-
-echo "<h2>player $player, joinOpenGame #$game </h2>";
-echo json_encode($g001->joinOpenGame($player, $game));
-
-echo "<h2>player $player, cancelGame #$game </h2>";
-echo 'affected row cnt is ' . $g001->cancelPlayerGame($player, $game);
+//$g001 = new GameB001();
+//$a = 30;
+//
+//echo "<h2>player $a, getUnfinishedGameCnt</h2>";
+//echo $g001->getUnfinishedGameCnt($a);
+//
+//echo "<h2>player $a, getUnfinishedGame </h2>";
+//echo json_encode($g001->getUnfinishedGame($a));
+//
+//$a = 2;
+//echo "<h2>player $a, openNewGame </h2>";
+//echo json_encode($g001->openNewGame($a));
+//
+//
+//$player = 33;
+//$game = 140;
+//
+//echo "<h2>player $player, joinOpenGame #$game </h2>";
+//echo json_encode($g001->joinOpenGame($player, $game));
+//
+//echo "<h2>player $player, cancelGame #$game </h2>";
+//echo 'affected row cnt is ' . $g001->cancelPlayerGame($player, $game);
 
