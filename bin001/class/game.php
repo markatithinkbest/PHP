@@ -84,7 +84,7 @@ class B253GCM {
 
 class GameB001 {
     // MUST BE public
-    public  $known_sec_code = "Asdfg12345";
+    public  $sec_code = "Asdfg12345";
 
     // private 
     private $game_table = "game_header";
@@ -201,6 +201,30 @@ class GameB001 {
         return $this->getGame($game);
     }
 
+    function playP1Move($game_id, $num_set, $state_id) { //p as player       
+        $db = new Database();
+        $db->connect();
+        //
+        $set_array = array('game_id' => $game_id, 'p1_set' => $num_set, 'state_id' => $state_id);
+        print_r($set_array);
+        $where_clause = "game_id=$game";
+        $db->update($this->game_table, $set_array, $where_clause);
+        $res = $db->getResult();
+        return $this->getGame($game);
+    }
+    function playP2Move($game_id, $num_set, $state_id) { //p as player       
+        $db = new Database();
+        $db->connect();
+        //
+        $set_array = array('game_id' => $game_id, 'p2_set' => $num_set, 'state_id' => $state_id);
+        $where_clause = "game_id=$game";
+        $db->update($this->game_table, $set_array, $where_clause);
+        $res = $db->getResult();
+        return $this->getGame($game);
+    }
+
+    
+    
     function getOpenGameId() { //p as player       
         $db = new Database();
         $db->connect();
