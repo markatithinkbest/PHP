@@ -39,18 +39,17 @@ class B253GCM {
 
         $db->select('game_header', '*', NULL, $where_clause, ''); // Table name, Column Names, JOIN, WHERE conditions, ORDER BY conditions
         $res = $db->getResult();
-        foreach ($res as $a) {
-
-      //      $sample_msg = array('gamexxx' => json_encode($a));
-        }
-        print_r($res);
-        echo "<h1>---</h1>";
-        print_r($res[0]);
-        echo "<h1>---</h1>";
-        $sample_msg = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
-        //echo json_encode($arr);
-        print_r($arr);
-echo "<h1>---</h1>";
+//        foreach ($res as $a) {
+        //      $sample_msg = array('gamexxx' => json_encode($a));
+//        }
+//        print_r($res);
+//        echo "<h1>---</h1>";
+//        print_r($res[0]);
+//        echo "<h1>---</h1>";
+//        $sample_msg = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
+//        //echo json_encode($arr);
+//        print_r($arr);
+//echo "<h1>---</h1>";
         $url = 'https://android.googleapis.com/gcm/send';
 
         $fields = array(
@@ -83,11 +82,14 @@ echo "<h1>---</h1>";
 
 }
 
-
 class GameB001 {
+    // MUST BE public
+    public  $known_sec_code = "Asdfg12345";
 
+    // private 
     private $game_table = "game_header";
-
+    
+    
     /**
      * 這個player還沒有完成的game數量
      * @param type $player
@@ -188,18 +190,17 @@ class GameB001 {
      * @param type $game
      * @return type
      */
-    function joinOpenGame($player,$num_set, $game) { //p as player       
+    function joinOpenGame($player, $num_set, $game) { //p as player       
         $db = new Database();
         $db->connect();
         //
-        $set_array = array('p2_id' => $player,'p2_set' => $num_set,'state_id' => 0);
+        $set_array = array('p2_id' => $player, 'p2_set' => $num_set, 'state_id' => 0);
         $where_clause = "game_id=$game";
         $db->update($this->game_table, $set_array, $where_clause);
         $res = $db->getResult();
         return $this->getGame($game);
     }
-    
-    
+
     function getOpenGameId() { //p as player       
         $db = new Database();
         $db->connect();
@@ -211,7 +212,7 @@ class GameB001 {
             $result = 0;
         } else {
             $arr = $res[0];
-            $result=$arr['game_id'];
+            $result = $arr['game_id'];
         }
 
 //        print_r($result);
