@@ -13,7 +13,9 @@
 //  ---------------------------------------------
 ?>
 <?php
-$known_sec_code="abc12345";
+
+require_once ('class/game.php');
+$g001 = new GameB001();
 
   //---取得變量值
   $reg_id=$_REQUEST['reg_id'];
@@ -40,7 +42,7 @@ $arr = array('ans' => 'no', 'err_desc' => '');
     exit();
   }
 
-  if (strcmp($sec_code,$known_sec_code)!=0){
+  if (strcmp($sec_code,$g001->sec_code)!=0){
     //printf("...wrong sec_code");
     $arr = array('ans' => 'no', 'err_desc' => 'wrong sec code');
     echo json_encode($arr);
