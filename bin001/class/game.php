@@ -113,7 +113,7 @@ class GameB001 {
      * @return type　１：成功　０：失敗（重覆第二次以後算是失敗）
      * ?
      */
-    function cancelPlayerGame($player, $game) {
+    function cancelGame($player, $game) {
         $db = new Database();
         $db->connect();
         //
@@ -201,28 +201,44 @@ class GameB001 {
         return $this->getGame($game);
     }
 
+    function cancelGame($game_id, $stated_id) { //p as player       
+        $db = new Database();
+        $db->connect();
+        //
+        $set_array = array( 'state_id' => $state_id);
+        $where_clause = "game_id=$game_id";
+        $db->update($this->game_table, $set_array, $where_clause);
+        $res = $db->getResult();
+        
+        return $this->getGame($game_id);
+    }
+    
     function playP1Move($game_id, $num_set, $state_id) { //p as player       
         $db = new Database();
         $db->connect();
         //
-        $set_array = array('game_id' => $game_id, 'p1_set' => $num_set, 'state_id' => $state_id);
-        print_r($set_array);
-        $where_clause = "game_id=$game";
+        $set_array = array( 'p1_set' => $num_set, 'state_id' => $state_id);
+        $where_clause = "game_id=$game_id";
         $db->update($this->game_table, $set_array, $where_clause);
         $res = $db->getResult();
-        return $this->getGame($game);
+        
+        return $this->getGame($game_id);
     }
+    
+    
+    
     function playP2Move($game_id, $num_set, $state_id) { //p as player       
         $db = new Database();
         $db->connect();
         //
-        $set_array = array('game_id' => $game_id, 'p2_set' => $num_set, 'state_id' => $state_id);
-        $where_clause = "game_id=$game";
+        $set_array = array( 'p2_set' => $num_set, 'state_id' => $state_id); //THE ONLY ONE LINE CHANGED
+        $where_clause = "game_id=$game_id";
         $db->update($this->game_table, $set_array, $where_clause);
         $res = $db->getResult();
-        return $this->getGame($game);
+        
+        return $this->getGame($game_id);
     }
-
+    
     
     
     function getOpenGameId() { //p as player       
